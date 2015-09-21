@@ -32,7 +32,7 @@ public class Test {
         bp.processToXML(text);
         System.out.println(text.toXMLString());
 
-        text.setAutomaticIndexing();;
+        text.setAutomaticIndexing();
         LundParser lp = new LundParser("/Users/quynhdo/Downloads/CoNLL2009-ST-English-ALL.anna-3.3.parser.model");
         LundSRL srl = new LundSRL("/Users/quynhdo/Downloads/CoNLL2009-ST-English-ALL.anna-3.3.srl-4.1.srl.model");
 

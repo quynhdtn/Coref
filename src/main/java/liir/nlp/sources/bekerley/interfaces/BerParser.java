@@ -4,6 +4,7 @@ import edu.berkeley.nlp.PCFGLA.CoarseToFineMaxRuleParser;
 import edu.berkeley.nlp.entity.preprocess.PreprocessingDriver;
 import edu.berkeley.nlp.syntax.Tree;
 import edu.berkeley.nlp.util.Logger;
+import liir.nlp.interfaces.preprocessing.Processor;
 import liir.nlp.representation.Sentence;
 import liir.nlp.representation.Text;
 
@@ -16,12 +17,13 @@ import java.util.List;
  * this parser does both syntactic parsing and tokenizer
  *
  */
-public class BerParser {
+public class BerParser extends Processor{
     CoarseToFineMaxRuleParser parser;
     CoarseToFineMaxRuleParser backoffParser;
 
     public BerParser(String grammarModelPath, String backoffgrammarModelPath){
 
+        super("Bekerley Parser");
         parser = PreprocessingDriver.loadParser(grammarModelPath);
         backoffParser = PreprocessingDriver.loadParser(backoffgrammarModelPath);
 
@@ -29,7 +31,7 @@ public class BerParser {
     }
 
 
-    public String processToXML(Text txt){
+    public Text processToText(Text txt){
 
         for (Sentence s : txt) {
             ArrayList<String> forms = new ArrayList<String>();
@@ -63,7 +65,7 @@ public class BerParser {
 
         }
 
-        return txt.toXMLString();
+        return txt;
 
     }
 

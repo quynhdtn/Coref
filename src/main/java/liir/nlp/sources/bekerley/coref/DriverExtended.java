@@ -31,7 +31,7 @@ public class DriverExtended extends Driver {
 
     public DriverExtended(String modelPath, String genderPath){
 
-        this.numberGenderDataPath = genderPath;
+        numberGenderDataPath = genderPath;
 
         scorer =  (PairwiseScorer) GUtil.load(modelPath);
     }

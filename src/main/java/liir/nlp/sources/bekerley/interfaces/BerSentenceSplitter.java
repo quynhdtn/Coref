@@ -5,18 +5,24 @@ import liir.nlp.representation.Sentence;
 import liir.nlp.representation.Text;
 import liir.nlp.representation.Word;
 
+import java.util.List;
+
 /**
  * Created by quynhdo on 01/09/15.
  */
-public class BerSentenceSplitter {
+public class BerSentenceSplitter  extends liir.nlp.interfaces.preprocessing.SentenceSplitter{
     SentenceSplitter splitter;
     public static boolean respectInputLineBreaks = true;
     public static boolean respectInputTwoLineBreaks = true;
 
-    public BerSentenceSplitter(String sentenceSplitterModelPath) {
+        public BerSentenceSplitter(String sentenceSplitterModelPath) {
       splitter =  SentenceSplitter.loadSentenceSplitter(sentenceSplitterModelPath);
-
+        setName("Bekerley Sentence Splitter");
     }
+
+
+
+
 
     public String[] process (String text){
         String[] lines = text.split("\n");
@@ -36,7 +42,7 @@ public class BerSentenceSplitter {
 
         String[] sentences = splitter.splitSentences(canonicalizedParagraphs);
 
-        String[][] tokenizedSentences = splitter.tokenize(sentences);
+        String[][] tokenizedSentences = SentenceSplitter.tokenize(sentences);
         Text txt = new Text();
         for (int i =0 ; i<tokenizedSentences.length; i++) {
             Sentence se =new Sentence();
