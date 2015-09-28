@@ -6,8 +6,10 @@
 
 
     <groupId>liir</groupId>
-    <artifactId>nlp</artifactId>
+    <artifactId>nlp.coref</artifactId>
     <version>1.0</version>
+
+
     <dependencies>
         <dependency>
             <groupId>log4j</groupId>
