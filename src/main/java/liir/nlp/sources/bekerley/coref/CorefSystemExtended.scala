@@ -28,7 +28,7 @@ object CorefSystemExtended {
      val devDocGraph = prepareTestDocuments(doc);
      //    new CorefFeaturizerTrainer().featurizeBasic(devDocGraphs, scorer.featurizer);  // dev docs already know they are dev docs so they don't add features
      //    val basicInferencer = new DocumentInferencerBasic();
-     runPredictForMe(devDocGraph, scorer, false);
+     runPredictForMe(devDocGraph, scorer);
 
 
    }
@@ -42,6 +42,9 @@ object CorefSystemExtended {
 
 
   }
+
+
+
 
   def runExtractionOutputBody(devPath: String, devSize: Int, scorer: PairwiseScorer) : Seq[(DocumentGraph,Array[Array[Float]])]= {
     // Read because it should be a directory
@@ -119,7 +122,7 @@ object CorefSystemExtended {
    }
 
 
-  def runPredictForMe(devDocGraph: DocumentGraph, scorer: PairwiseScorer, isParallel: Boolean): (DocumentGraph,Array[Array[Float]]) = {
+  def runPredictForMe(devDocGraph: DocumentGraph, scorer: PairwiseScorer): (DocumentGraph,Array[Array[Float]]) = {
     val basicInferencer = new DocumentInferencerBasic();
 
       devDocGraph.featurizeIndexNonPrunedUseCache(scorer.featurizer);
@@ -159,4 +162,17 @@ object CorefSystemExtended {
       devDocGraph.clearFeatureCache();
     (backptrs, clustering, devDocGraph);
   }
- }
+
+  def runPredictWithILP(devDocGraph: DocumentGraph, scorer: PairwiseScorer,  backptrs: Array[Int]): (Array[Int],OrderedClustering,DocumentGraph) = {
+    val basicInferencer = new DocumentInferencerBasic();
+
+
+      val clustering = OrderedClustering.createFromBackpointers(backptrs)
+
+      devDocGraph.clearFeatureCache();
+      (backptrs, clustering,devDocGraph);
+
+
+  }
+
+}

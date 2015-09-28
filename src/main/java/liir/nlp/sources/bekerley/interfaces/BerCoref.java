@@ -2,7 +2,7 @@ package liir.nlp.sources.bekerley.interfaces;
 
 import edu.berkeley.nlp.entity.Driver;
 import liir.nlp.interfaces.preprocessing.Processor;
-import liir.nlp.representation.Text;
+import liir.nlp.core.representation.Text;
 import liir.nlp.sources.bekerley.coref.DriverExtended;
 
 /**
@@ -24,7 +24,7 @@ public class BerCoref extends Processor{
 
 
     public void setUsingGold(boolean t){
-        Driver.useGoldMentions = t;
+        de.useGoldMentions =t;
 
     }
 }

@@ -2,9 +2,9 @@ package liir.nlp.sources.bekerley.interfaces;
 
 import edu.berkeley.nlp.entity.preprocess.SentenceSplitter;
 import liir.nlp.interfaces.preprocessing.Tokenizer;
-import liir.nlp.representation.Sentence;
-import liir.nlp.representation.Text;
-import liir.nlp.representation.Word;
+import liir.nlp.core.representation.Sentence;
+import liir.nlp.core.representation.Text;
+import liir.nlp.core.representation.Word;
 
 /**
  * Created by quynhdo on 01/09/15.

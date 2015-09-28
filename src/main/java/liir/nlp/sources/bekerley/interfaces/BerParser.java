@@ -5,11 +5,10 @@ import edu.berkeley.nlp.entity.preprocess.PreprocessingDriver;
 import edu.berkeley.nlp.syntax.Tree;
 import edu.berkeley.nlp.util.Logger;
 import liir.nlp.interfaces.preprocessing.Processor;
-import liir.nlp.representation.Sentence;
-import liir.nlp.representation.Text;
+import liir.nlp.core.representation.Sentence;
+import liir.nlp.core.representation.Text;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

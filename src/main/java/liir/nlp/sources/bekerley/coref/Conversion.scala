@@ -2,7 +2,7 @@ package liir.nlp.sources.bekerley.coref
 
 import edu.berkeley.nlp.entity.lang.ModCollinsHeadFinder
 import edu.berkeley.nlp.entity.{ConllDoc, DepConstTree, ConllDocReader}
-import liir.nlp.representation.Text
+import liir.nlp.core.representation.Text
 
 import scala.collection.mutable.ArrayBuffer
 

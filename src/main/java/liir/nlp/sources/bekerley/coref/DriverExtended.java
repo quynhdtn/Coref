@@ -4,18 +4,13 @@ import edu.berkeley.nlp.entity.Driver;
 import edu.berkeley.nlp.entity.GUtil;
 import edu.berkeley.nlp.entity.coref.*;
 import edu.berkeley.nlp.util.Logger;
-import liir.nlp.representation.Text;
-import liir.nlp.representation.entities.*;
-import liir.nlp.representation.entities.Mention;
-import scala.Array;
-import scala.Int;
+import liir.nlp.core.representation.Text;
+import liir.nlp.core.representation.entities.*;
+import liir.nlp.core.representation.entities.Mention;
 import scala.Tuple3;
 import scala.Tuple2;
 
 import scala.collection.Seq;
-import liir.nlp.sources.bekerley.*;
-import scala.collection.immutable.List;
-import scala.collection.mutable.ArrayBuffer;
 import scala.collection.JavaConversions;
 
 import java.util.ArrayList;
@@ -47,19 +42,13 @@ public class DriverExtended extends Driver {
 
         Tuple3<int[], OrderedClustering, DocumentGraph> rs=   CorefSystemExtended.runExtractionBody(Conversion.convertTextToConllDoc(text), scorer);
 
-        for (int i=0; i< rs._3().corefDoc().predMentions().length(); i++){
-
-
-        }
-
-
         java.util.List<edu.berkeley.nlp.entity.coref.Mention> mss =JavaConversions.bufferAsJavaList(rs._3().corefDoc().predMentions().toBuffer());
 
         HashMap<String,String> idMapping =new HashMap<>(); // id in coref - id indexed in text
 
         for (edu.berkeley.nlp.entity.coref.Mention m : mss){
 
-            liir.nlp.representation.entities.Mention  mym = new Mention(String.valueOf(m.startIdx()+1),
+            liir.nlp.core.representation.entities.Mention  mym = new Mention(String.valueOf(m.startIdx()+1),
                     String.valueOf(m.endIdx()), String.valueOf(m.headIdx()+1), String.valueOf(m.sentIdx()));
             mym.setId(String.valueOf(m.mentIdx()));
             String mapId = text.addMentionWithIndexing(mym);
@@ -87,4 +76,51 @@ public class DriverExtended extends Driver {
         System.out.print("");
     }
 
+
+    public static void runPredictionWithILP(Text text, DocumentGraph doc, OrderedClustering oc) {
+        Logger.setFig();
+
+
+        java.util.List<edu.berkeley.nlp.entity.coref.Mention> mss = JavaConversions.bufferAsJavaList(doc.corefDoc().predMentions().toBuffer());
+
+        HashMap<String, String> idMapping = new HashMap<>(); // id in coref - id indexed in text
+
+        for (edu.berkeley.nlp.entity.coref.Mention m : mss) {
+
+            liir.nlp.core.representation.entities.Mention mym = new Mention(String.valueOf(m.startIdx() + 1),
+                    String.valueOf(m.endIdx()), String.valueOf(m.headIdx() + 1), String.valueOf(m.sentIdx()));
+            mym.setId(String.valueOf(m.mentIdx()));
+            String mapId = text.addMentionWithIndexing(mym);
+            idMapping.put(String.valueOf(m.mentIdx()), mapId);
+
+        }
+
+
+
+        java.util.List<scala.collection.mutable.ArrayBuffer<Integer>> occ = JavaConversions.bufferAsJavaList(oc.clusters().toBuffer());
+
+
+        for (int i = 0; i < occ.size(); i++) {
+            java.util.List<Integer> jcl = JavaConversions.bufferAsJavaList(occ.get(i));
+            ArrayList<String> cll = new ArrayList<>();
+            for (int idd : jcl) {
+                cll.add(idMapping.get(String.valueOf(idd)));
+            }
+            text.addCorefCluster(new MentionCluster(cll));
+
+
+        }
+
+
+        System.out.print("");
+    }
+
+    public Tuple2<DocumentGraph,float[][]> getScores(Text text){
+        Logger.setFig();
+
+        Tuple2<DocumentGraph,float[][]> rs=   CorefSystemExtended.runExtractionOutputBody(Conversion.convertTextToConllDoc(text), scorer);
+
+        return rs;
+
+    }
 }
